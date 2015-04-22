@@ -57,7 +57,7 @@ signatures = {
                     condition: $v1a at 0 or $v1b or (($v2a or $v2b) and (($v1algoa and $v1algob) or $v2k or $v2p)) }'
 }
 #                       $v1algo = { BB 33 33 33 33 2B .. .. .. .. .. .. .. .. .. 09 BB 44 44 44 44 2B } \
-class PlugXScan1(taskmods.DllList):
+class PlugXScan(taskmods.DllList):
     """Detect processes infected with PlugX"""
 
     @staticmethod
@@ -110,10 +110,22 @@ class PlugXScan1(taskmods.DllList):
                 found.append((task, start))
 
 
-class PlugXConfig1(PlugXScan1):
+class PlugXConfig(PlugXScan):
     """Locate and parse the PlugX configuration"""
 
     persistence = defaultdict(lambda: "Unknown", {0: "Service + Run Key", 1: "Service", 2: "Run key", 3: "None"})
+
+    reg_hives = {
+            0x80000002 : 'HKLM',
+            0x80000001 : 'HKCU',
+            0x80000000 : 'HKCR',
+            0x80000003 : 'HKU',
+            0x80000004 : 'HKPD',
+            0x80000050 : 'HKPT',
+            0x80000060 : 'HKPN',
+            0x80000005 : 'HKCC',
+            0x80000006 : 'HKDD',
+        }
 
     @staticmethod
     def get_vad_end(task, address):
@@ -342,6 +354,8 @@ class PlugXConfig1(PlugXScan1):
                                 outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),x))
                 elif f == 'persistence':
                     outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),self.persistence[v]))
+                elif f == 'reg_hive':
+                    outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),self.reg_hives.get(v,"Unknown")))
                 elif 'end_scan' in f or 'start_scan' in f:
                     outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),inet_ntoa(pack("<I",v))))
                 else:
