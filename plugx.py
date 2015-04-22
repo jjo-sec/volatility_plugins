@@ -320,33 +320,33 @@ class PlugXConfig1(PlugXScan1):
                 if f=='mac_disable':
                     b = [x for x in v]
                     mac_str = '{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}'.format(*b)
-                    outfd.write("\t{}: {}\n".format(f.replace('_',' ').capitalize(),mac_str))
+                    outfd.write("\t{}: {}\n".format(f.replace('_',' ').title(),mac_str))
                 elif getattr(v,'_type_',None):
                     for x in v:
                         if f == 'cnc':
                             if x.host:
-                                outfd.write("\t{}: {}:{} ({})\n".format(f.replace('_',' ').capitalize(),x.host,x.port,self.get_proto(x.proto)))
+                                outfd.write("\t{}: {}:{} ({})\n".format(f.replace('_',' ').title(),x.host,x.port,self.get_proto(x.proto)))
                         elif f == 'proxy':
                             if x.host:
-                                outfd.write("\t{}: {}:{} ({} / {})\n".format(f.replace('_',' ').capitalize(),x.host,x.port,x.user,x.passwd))
+                                outfd.write("\t{}: {}:{} ({} / {})\n".format(f.replace('_',' ').title(),x.host,x.port,x.user,x.passwd))
                         elif f == 'dns':
                             if x:
-                                outfd.write("\t{}: {}\n".format(f.replace('_',' ').capitalize(),inet_ntoa(pack("<I",x))))
+                                outfd.write("\t{}: {}\n".format(f.replace('_',' ').title(),inet_ntoa(pack("<I",x))))
                         elif len(getattr(x,'_fields_',[])) > 1:
                             a = {}
                             for y,z in x._fields_:
                                 if getattr(x,y):
-                                    outfd.write("\t{} {}: {}\n".format(f.replace('_',' ').capitalize(),y.replace('_',' ').capitalize(),y))
+                                    outfd.write("\t{} {}: {}\n".format(f.replace('_',' ').title(),y.replace('_',' ').title(),y))
                         else:
                             if str(x):
-                                outfd.write('\t{}: {}\n'.format(f.replace('_',' ').capitalize(),x))
+                                outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),x))
                 elif f == 'persistence':
-                    outfd.write('\t{}: {}\n'.format(f.replace('_',' ').capitalize(),self.persistence[v]))
+                    outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),self.persistence[v]))
                 elif 'end_scan' in f or 'start_scan' in f:
-                    outfd.write('\t{}: {}\n'.format(f.replace('_',' ').capitalize(),inet_ntoa(pack("<I",v))))
+                    outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),inet_ntoa(pack("<I",v))))
                 else:
                     if str(v):
-                        outfd.write('\t{}: {}\n'.format(f.replace('_',' ').capitalize(),v))
+                        outfd.write('\t{}: {}\n'.format(f.replace('_',' ').title(),v))
         else:
             outfd.write("Config size 0x%04x not supported\n" % cfg_sz)
 
