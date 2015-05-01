@@ -1,7 +1,7 @@
 # volatility_plugins
 Volatility Plugins
 
-A collection of plugs for the [Volatility](https://github.com/volatilityfoundation/volatility) framework that I have
+A collection of plugins for the [Volatility](https://github.com/volatilityfoundation/volatility) framework that I have
 authored or made significant contributions to.
 
 The PlugX configuration extraction is a fork and update of the plugin located at http://bitbucket.cassidiancybersecurity.com/volatility_plugins/wiki/Home
